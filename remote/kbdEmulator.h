@@ -12,7 +12,7 @@
         exit(EXIT_FAILURE); \
     } while(0)
 
-void emulateKey(int, int);
+void emulateKey(int, int, int);
 int createDevice(int);
 int convertToKeyCode(char);
 void destroyDevice(int);
