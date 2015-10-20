@@ -7,9 +7,11 @@ void error(const char* msg) {
 
 int sendMessage(int sockfd, char *msg) {
     int n;
-    n = write(sockfd, msg, strlen(msg));
+printf("sending...");
+    n = write(sockfd, msg, 4);
     if (n < 0)
       error("ERROR writing to socket");
+printf("done");
     //memset(buffer, 0, 256);
     //n = read(sockfd,buffer,255);
     //if (n < 0)
@@ -23,7 +25,8 @@ int connectRemote(char *hostname) {
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256];
+    //char buffer[256];
+    printf("sending...\n");
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         error("ERROR opening socket");
