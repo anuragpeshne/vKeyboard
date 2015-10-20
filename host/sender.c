@@ -7,11 +7,9 @@ void error(const char* msg) {
 
 int sendMessage(int sockfd, char *msg) {
     int n;
-printf("sending...");
     n = write(sockfd, msg, 4);
     if (n < 0)
       error("ERROR writing to socket");
-printf("done");
     //memset(buffer, 0, 256);
     //n = read(sockfd,buffer,255);
     //if (n < 0)

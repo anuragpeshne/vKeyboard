@@ -57,29 +57,13 @@ int createDevice(int fd) {
   return fd;
 }
 
-void emulateKey(int key, int fd) {
+void emulateKey(int key, int eventCode, int fd) {
   struct input_event ev;
 
-  //key press
   memset(&ev, 0, sizeof(struct input_event));
   ev.type = EV_KEY;
   ev.code = key;
-  ev.value = 1;
-  if(write(fd, &ev, sizeof(struct input_event)) < 0)
-      die("error: write");
-
-  memset(&ev, 0, sizeof(struct input_event));
-  ev.type = EV_SYN;
-  ev.code = SYN_REPORT;
-  ev.value = 0;
-  if(write(fd, &ev, sizeof(struct input_event)) < 0)
-      die("error: write");
-
-  //key release
-  memset(&ev, 0, sizeof(struct input_event));
-  ev.type = EV_KEY;
-  ev.code = key;
-  ev.value = 0;
+  ev.value = eventCode;
   if(write(fd, &ev, sizeof(struct input_event)) < 0)
       die("error: write");
 

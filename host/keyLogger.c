@@ -13,20 +13,24 @@ static const char *const evval[3] = {
   "REPEATED"
 };
 
-int main(void) {
-  const char *dev = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+int main(int argc, char *argv[]) {
+  char *dev;
   struct input_event ev;
   ssize_t n;
   int fd;
   int sockfd;
   char buffer[50];
 
-  fd = open(dev, O_RDONLY);
+  if (argc < 3) {
+    printf("Usage a.out {Hostname} {kbd device}");
+    exit(1);
+  }
+  fd = open(argv[2], O_RDONLY);
   if (fd == -1) {
     fprintf(stderr, "Cannot open %s: %s.\n", dev, strerror(errno));
     return EXIT_FAILURE;
   }
-  sockfd = connectRemote("10.100.3.123");
+  sockfd = connectRemote(argv[1]);
   while (1) {
     n = read(fd, &ev, sizeof ev);
     if (n == (ssize_t)-1) {
@@ -42,12 +46,10 @@ int main(void) {
     }
     if (ev.type == EV_KEY && ev.value >= 0 && ev.value <= 2) {
       //printf("got %s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
-      if (ev.value == 1) {
-      	printf("put %s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
-        memset(buffer, 0, 50);
-        sprintf(buffer, "%d", (int)ev.code);
-        sendMessage(sockfd, buffer);
-      }
+      printf("put %s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
+      memset(buffer, 0, 50);
+      sprintf(buffer, "%d-%d", (int)ev.code, ev.value);
+      sendMessage(sockfd, buffer);
     }
   }
   fflush(stdout);
