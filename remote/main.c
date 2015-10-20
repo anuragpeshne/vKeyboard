@@ -4,17 +4,18 @@
 
 int main(void) {
     int fd, sockfd, newsockfd;
-    int ret;
+    int len;
     char buffer[256];
 
     fd = createDevice(fd);
     printf("device created\n");
     connectHost(&sockfd, &newsockfd);
     while(1) {
-      ret = pollMsg(newsockfd, buffer);
-      if (ret == 0) {
-              printf("%s", buffer);
-        //emulateKey(atoi(buffer), fd);
+      len = pollMsg(newsockfd, buffer);
+      if (len > 0) {
+        emulateKey(atoi(buffer), fd);
+      } else {
+        break;
       }
     }
     destroyDevice(fd);

@@ -13,12 +13,12 @@ void error(const char *msg) {
 int pollMsg(int newsockfd, char *buffer) {
      int n;
      memset(buffer, 0, 256);
-     n = read(newsockfd,buffer,255);
+     n = read(newsockfd,buffer,4);
      if (n < 0) error("ERROR reading from socket");
      //printf("Here is the message: %s\n",buffer);
      //n = write(newsockfd,"I got your message",18);
      //if (n < 0) error("ERROR writing to socket");
-     return 0;
+     return n;
 }
 
 void connectHost(int *sockfd, int *newsockfd) {
