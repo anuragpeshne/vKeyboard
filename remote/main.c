@@ -3,18 +3,20 @@
 #include "receiver.h"
 
 int main(void) {
-    int fd;
+    int fd, sockfd, newsockfd;
     int ret;
     char buffer[256];
 
     fd = createDevice(fd);
     printf("device created\n");
-    ret = pollMsg(buffer);
-    if (ret == 0) {
-      emulateKey(atoi(buffer), fd);
-      sleep(1);
+    connectHost(&sockfd, &newsockfd);
+    while(1) {
+      ret = pollMsg(newsockfd, buffer);
+      if (ret == 0) {
+              printf("%s", buffer);
+        //emulateKey(atoi(buffer), fd);
+      }
     }
-
     destroyDevice(fd);
     return 0;
 }

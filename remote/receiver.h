@@ -6,4 +6,6 @@
 #define PORT_NO 1234
 
 void error(const char*);
-int pollMsg(char*);
+int pollMsg(int, char*);
+void connectHost(int*, int*);
+void closeConnection(int, int);

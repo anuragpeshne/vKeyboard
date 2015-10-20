@@ -1,12 +1,24 @@
 #include "sender.h"
 
-void error(const char *msg)
-{
+void error(const char* msg) {
     perror(msg);
     exit(0);
 }
 
-int sendMessage(char *msg, char *hostname) {
+int sendMessage(int sockfd, char *msg) {
+    int n;
+    n = write(sockfd, msg, strlen(msg));
+    if (n < 0)
+      error("ERROR writing to socket");
+    //memset(buffer, 0, 256);
+    //n = read(sockfd,buffer,255);
+    //if (n < 0)
+         //error("ERROR reading from socket");
+    //printf("%s\n",buffer);
+    return 0;
+}
+
+int connectRemote(char *hostname) {
     int sockfd, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -28,14 +40,10 @@ int sendMessage(char *msg, char *hostname) {
     serv_addr.sin_port = htons(PORT_NO);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0)
         error("ERROR connecting");
-    n = write(sockfd, msg, strlen(msg));
-    if (n < 0)
-      error("ERROR writing to socket");
-    //memset(buffer, 0, 256);
-    //n = read(sockfd,buffer,255);
-    //if (n < 0)
-         //error("ERROR reading from socket");
-    //printf("%s\n",buffer);
+
+    return sockfd;
+}
+
+void closeConnection(int sockfd) {
     close(sockfd);
-    return 0;
 }

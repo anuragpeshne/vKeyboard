@@ -18,6 +18,7 @@ int main(void) {
   struct input_event ev;
   ssize_t n;
   int fd;
+  int sockfd;
   char buffer[50];
 
   fd = open(dev, O_RDONLY);
@@ -25,6 +26,7 @@ int main(void) {
     fprintf(stderr, "Cannot open %s: %s.\n", dev, strerror(errno));
     return EXIT_FAILURE;
   }
+  sockfd = connectRemote("localhost");
   while (1) {
     n = read(fd, &ev, sizeof ev);
     if (n == (ssize_t)-1) {
@@ -42,10 +44,11 @@ int main(void) {
       //printf("%s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
       memset(buffer, 0, 50);
       sprintf(buffer, "%d", (int)ev.code);
-      sendMessage(buffer, "localhost");
+      sendMessage(sockfd, buffer);
     }
   }
   fflush(stdout);
+  closeConnection(sockfd);
   fprintf(stderr, "%s.\n", strerror(errno));
   return EXIT_FAILURE;
 }

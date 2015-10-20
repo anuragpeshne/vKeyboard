@@ -9,5 +9,7 @@
 
 #define PORT_NO 1234
 
-int sendMessage(char*, char*);
+int sendMessage(int, char*);
+int connectRemote(char*);
+void closeConnection(int);
 void error(const char*);
