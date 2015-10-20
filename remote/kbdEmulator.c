@@ -1,20 +1,5 @@
 #include "kbdEmulator.h"
 
-//key codes are arranged as keyboard layout, this function converts ascii char
-// to keyboard key and gives back KEY_CODE
-int convertToKeyCode(char ip) {
-  int rowIndex;
-  if (ip == 'a') {
-    return KEY_A;
-  } else if (ip == 'b') {
-    return KEY_B;
-  } else if (ip == 'c') {
-    return KEY_C;
-  } else {
-    return KEY_D;
-  }
-}
-
 int createDevice(int fd) {
   struct uinput_user_dev uidev;
   int i;
