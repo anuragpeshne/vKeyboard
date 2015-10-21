@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   char buffer[50];
 
   if (argc < 3) {
-    printf("Usage a.out {Hostname} {kbd device}");
+    printf("Usage a.out {Hostname} {/dev/input/by-path/kbd device}");
     exit(1);
   }
   fd = open(argv[2], O_RDONLY);
@@ -46,7 +46,6 @@ int main(int argc, char *argv[]) {
     }
     if (ev.type == EV_KEY && ev.value >= 0 && ev.value <= 2) {
       //printf("got %s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
-      printf("put %s 0x%04x (%d)\n", evval[ev.value], (int)ev.code, (int)ev.code);
       memset(buffer, 0, 50);
       sprintf(buffer, "%d-%d", (int)ev.code, ev.value);
       sendMessage(sockfd, buffer);
