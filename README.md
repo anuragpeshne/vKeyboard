@@ -25,5 +25,6 @@ I wrote this program to feed input to my Raspberry Pi using my laptop's keyboard
 ###### To-Do:
 * Make key combinations to enable and disable sending key codes.
 * Ignore `sigint` on host, or have a way around.
-* Try to make it work on Android. (Android has `/dev/uinput`.
+* Try to make it work on Android. (Android has `/dev/uinput`).
 * Write keyboard reader for OS X.
+* Share mouse similarly (?).
