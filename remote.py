@@ -1,4 +1,4 @@
-from pynput.keyboard import Key, Controller, KeyCode
+from pynput.keyboard import Key, Controller
 import sys
 import threading
 import socket
@@ -13,7 +13,7 @@ class Remote:
     @staticmethod
     def serve():
         serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        serversocket.bind(('localhost', Remote.PORT))
+        serversocket.bind((socket.gethostbyname(socket.gethostname()), Remote.PORT))
         serversocket.listen(5)
         while True:
             (clientsocket, address) = serversocket.accept()
@@ -53,7 +53,7 @@ class Remote:
                 print(msgObj)
             else:
                 if "Key." in msgObj['key']:
-                    key = getattr(KeyCode, msgObj['key'].split('.')[1])
+                    key = getattr(Key, msgObj['key'].split('.')[1])
                 else:
                     key = msgObj['key']
                 if msgObj['event'] == Remote.KEY_PRESS:
