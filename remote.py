@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from pynput.keyboard import Key, Controller
 import sys
 import threading
